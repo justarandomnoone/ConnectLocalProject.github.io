@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Businesses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #4A90E2;
+        }
+        .header {
+            background-color: #0078FF;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .business-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+        .business-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            transition: transform 0.2s;
+            margin: 10px;
+            width: 300px;
+        }
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background-color: #e0e0e0;
+        }
+        .business-card h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #2980b9;
+        }
+        .business-card p {
+            margin: 5px 0;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .business-card {
+                flex: 0 0 48%;
+                max-width: 48%;
+            }
+        }
+        #map {
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">ConnectLocal <span>Shopping Businesses</span></div>
+    </div>
+
+    <div class="main-content">
+        <h1>Shopping Businesses</h1>
+        <ul class="business-list" id="businessList"></ul>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        function loadShoppingBusinesses() {
+            const businessList = document.getElementById('businessList');
+            const map = L.map('map').setView([51.505, -0.09], 2);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            const shoppingBusinesses = JSON.parse(localStorage.getItem('shopping')) || [];
+
+            if (shoppingBusinesses.length === 0) {
+                businessList.innerHTML = '<li>No shopping businesses available.</li>';
+            } else {
+                shoppingBusinesses.forEach(business => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'business-card';
+                    listItem.innerHTML = `
+                        <h3>${business.name}</h3>
+                        <p>Email: ${business.email}</p>
+                        <p>Address: ${business.address}</p>
+                    `;
+                    businessList.appendChild(listItem);
+
+                    // Replace with actual coordinates from your data
+                    const lat = 51.505; // Replace with business latitude
+                    const lng = -0.09;  // Replace with business longitude
+                    L.marker([lat, lng]).addTo(map).bindPopup(business.name).openPopup();
+                });
+            }
+        }
+
+        window.onload = loadShoppingBusinesses;
+    </script>
+</body>
+</html>

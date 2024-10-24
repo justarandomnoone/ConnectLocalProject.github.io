@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Businesses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: #4A90E2;
+        }
+        .header {
+            background-color: #0078FF;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .business-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+        .business-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px; /* Reduced padding */
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            transition: transform 0.2s;
+            margin: 10px; /* Add margin for spacing */
+            width: 300px; /* Set a fixed width for the cards */
+        }
+        .business-card:hover {
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+            background-color: #e0e0e0; /* Change background color on hover */
+        }
+        .business-card h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #2980b9; /* Business name color */
+        }
+        .business-card p {
+            margin: 5px 0;
+            color: #333; /* Dark text */
+        }
+        @media (max-width: 768px) {
+            .business-card {
+                flex: 0 0 48%; /* Two cards per row on smaller screens */
+                max-width: 48%;
+            }
+        }
+        #map {
+            height: 400px; /* Set a height for the map */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">ConnectLocal <span>Food Businesses</span></div>
+    </div>
+
+    <div class="main-content">
+        <h1>Food Businesses</h1>
+        <ul class="business-list" id="businessList">
+            <!-- Business list will be dynamically loaded here -->
+        </ul>
+        <div id="map"></div> <!-- Map Container -->
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Function to load food businesses from localStorage and display them
+        function loadFoodBusinesses() {
+            const businessList = document.getElementById('businessList');
+            const map = L.map('map').setView([51.505, -0.09], 2); // Set initial map view and zoom level
+            
+            // Set up the tile layer for the map
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            // Get the 'food' category businesses from localStorage
+            const foodBusinesses = JSON.parse(localStorage.getItem('food')) || [];
+
+            if (foodBusinesses.length === 0) {
+                businessList.innerHTML = '<li>No food businesses available.</li>';
+            } else {
+                // Loop through the businesses and add them to the list
+                foodBusinesses.forEach(business => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'business-card'; // Add class for styling
+                    listItem.innerHTML = `
+                        <h3>${business.name}</h3>
+                        <p>Email: ${business.email}</p>
+                        <p>Address: ${business.address}</p>
+                    `;
+                    businessList.appendChild(listItem);
+
+                    // Add a marker for each business on the map
+                    const lat = 51.505; // Replace with actual latitude
+                    const lng = -0.09;  // Replace with actual longitude
+                    L.marker([lat, lng]).addTo(map).bindPopup(business.name).openPopup();
+                });
+            }
+        }
+
+        // Call the function to load the businesses when the page loads
+        window.onload = loadFoodBusinesses;
+    </script>
+</body>
+</html>

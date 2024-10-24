@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectLocal City Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: url('local.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+        .header {
+            background-color: #0078FF;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header .logo span {
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .header .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .header .auth-buttons button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .header .auth-buttons .login {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+        .header .auth-buttons .signup {
+            background-color: #FFCC00;
+            color: black;
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100% - 60px);
+            text-align: center;
+        }
+        .main-content h1 {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        .main-content p {
+            font-size: 18px;
+            margin: 10px 0 30px;
+        }
+        .categories {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap; /* Allows categories to wrap to the next line */
+            justify-content: center; /* Centers the category buttons */
+        }
+        .categories .category {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 30px; /* Increased padding for a larger button */
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s; /* Adds a transition effect */
+            min-width: 150px; /* Ensures minimum width for consistency */
+        }
+        .categories .category:hover {
+            transform: scale(1.1); /* Slightly enlarges the button on hover */
+        }
+        .categories .category i {
+            font-size: 48px; /* Increased icon size */
+            margin-bottom: 10px;
+        }
+        .categories .category span {
+            font-size: 24px; /* Increased font size for the button text */
+            font-weight: bold; /* Makes the button text bold */
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px; /* Location of the box */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #0078FF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            ConnectLocal <span>CITY GUIDE</span>
+        </div>
+        <div class="auth-buttons">
+            <button class="login" onclick="openModal('loginModal')">Log In</button>
+            <button class="signup" onclick="openModal('signupModal')">Sign Up</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <h1>ConnectLocal</h1>
+        <p>Find the best places to eat, drink, shop, or visit in any city in the world. Access over 75 million short tips from local experts.</p>
+        <div class="categories">
+            <div class="category" onclick="navigateToCategory('food')">
+                <i class="fas fa-utensils"></i>
+                <span>Food</span>
+            </div>
+            <div class="category" onclick="navigateToCategory('coffee')">
+                <i class="fas fa-coffee"></i>
+                <span>Coffee</span>
+            </div>
+            <div class="category" onclick="navigateToCategory('market')">
+                <i class="fas fa-apple-alt"></i> <!-- Changed icon to apple -->
+                <span>Market</span>
+            </div>
+            <div class="category" onclick="navigateToCategory('fun')">
+                <i class="fas fa-smile"></i>
+                <span>Fun</span>
+            </div>
+            <div class="category" onclick="navigateToCategory('shopping')">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Shopping</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log In Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Log In</h2>
+            <form onsubmit="handleLogin(event)">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <input type="submit" value="Log In">
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up</h2>
+            <form onsubmit="handleSignup(event)">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <input type="submit" value="Sign Up">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript function to navigate to category pages
+        function navigateToCategory(category) {
+            switch (category) {
+                case 'food':
+                    window.location.href = 'food.html';  // Navigating to food.html
+                    break;
+                case 'coffee':
+                    window.location.href = 'coffee.html';  // Add coffee.html file similarly
+                    break;
+                case 'market':
+                    window.location.href = 'market.html';  // Add nightlife.html file similarly
+                    break;
+                case 'fun':
+                    window.location.href = 'fun.html';  // Add fun.html file similarly
+                    break;
+                case 'shopping':
+                    window.location.href = 'shopping.html';  // Add shopping.html file similarly
+                    break;
+                default:
+                    alert('Category not found');
+            }
+        }
+
+        // Function to open modals
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        // Function to close modals
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Dummy function to handle login
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent page refresh
+            alert("Login functionality not implemented. Replace with actual logic.");
+            closeModal('loginModal');
+        }
+
+        // Dummy function to handle signup
+        function handleSignup(event) {
+            event.preventDefault(); // Prevent page refresh
+            alert("Sign Up functionality not implemented. Replace with actual logic.");
+            closeModal('signupModal');
+        }
+    </script>
+</body>
+</html>

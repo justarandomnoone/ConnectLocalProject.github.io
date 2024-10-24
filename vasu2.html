@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectLocal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Add a background image to the body */
+            background-image: url('local.jpg'); /* Replace with your image URL */
+            background-size: cover; /* Makes sure the background covers the entire area */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            min-height: 100vh; /* Ensures the body covers full viewport height */
+        }
+        /* Optional: Add a background overlay for better text contrast */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+            z-index: -1; /* Places it behind the content */
+        }
+    </style>
+</head>
+<body class="bg-[#0A0A23] text-white relative">
+    <header class="bg-white text-black py-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="text-2xl font-bold">ConnectLocal</div>
+            <nav class="space-x-8">
+                <a href="vasu3.html" class="hover:underline">List My Business</a>
+                <a href="vasu4.html" class="hover:underline">Find a Business</a>
+               
+                           </nav>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-16">
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2">
+                <h1 class="text-5xl font-bold mb-4">What can ConnectLocal do for you?</h1>
+                <div class="h-1 w-8 bg-blue-500 mb-4"></div>
+                <p class="text-lg">ConnectLocal is the industry-leading platform for all things geospatial, from foundational building blocks to turnkey solutions.</p>
+            </div>
+            <div class="md:w-1/2 mt-8 md:mt-0">
+                <div class="space-y-4">
+                    <!-- Dropdown for List Your Business -->
+                    <div class="bg-[#1A1A3D] p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleDropdown('listBusinessDropdown')">
+                            <h2 class="text-xl font-bold mb-2">List your business</h2>
+                            <i class="fas fa-chevron-down transition-transform duration-200" id="listBusinessIcon"></i>
+                        </div>
+                        <div id="listBusinessDropdown" class="mt-2 max-h-0 overflow-hidden transition-max-height duration-500 ease-in-out">
+                            <p class="mb-4">List your business on ConnectLocal CityGuide, and help others discover what makes you great.</p>
+                            <button class="bg-blue-600 text-white py-2 px-4 rounded" onclick="window.location.href='vasu3.html'">Take me there</button>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown for Find a Business -->
+                    <div class="bg-[#1A1A3D] p-6 rounded-lg mb-4">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleDropdown('findBusinessDropdown')">
+                            <h2 class="text-xl font-bold mb-2">Find a business</h2>
+                            <i class="fas fa-chevron-down transition-transform duration-200" id="findBusinessIcon"></i>
+                        </div>
+                        <div id="findBusinessDropdown" class="mt-2 max-h-0 overflow-hidden transition-max-height duration-500 ease-in-out">
+                            <p class="mb-4">Discover great businesses nearby or explore a new area.</p>
+                            <button class="bg-blue-600 text-white py-2 px-4 rounded" onclick="window.location.href='vasu4.html'">Search Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown for Explore our Geospatial Platform -->
+                    <div class="bg-[#1A1A3D] p-6 rounded-lg">
+                        <div class="flex justify-between items-center cursor-pointer" onclick="toggleDropdown('explorePlatformDropdown')">
+                            <h2 class="text-xl font-bold mb-2">Explore our Geospatial Platform</h2>
+                            <i class="fas fa-chevron-down transition-transform duration-200" id="explorePlatformIcon"></i>
+                        </div>
+                        <div id="explorePlatformDropdown" class="mt-2 max-h-0 overflow-hidden transition-max-height duration-500 ease-in-out">
+                            <p class="mb-4">Learn more about our innovative geospatial solutions.</p>
+<button class="bg-blue-600 text-white py-2 px-4 rounded" onclick="window.location.href='explore.html'">Explore now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            const icon = dropdown.previousElementSibling.querySelector('i');
+
+            if (dropdown.classList.contains('max-h-0')) {
+                dropdown.classList.remove('max-h-0');
+                dropdown.classList.add('max-h-screen');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                dropdown.classList.add('max-h-0');
+                dropdown.classList.remove('max-h-screen');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+    </script>
+</body>
+</html>
